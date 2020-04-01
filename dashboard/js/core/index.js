@@ -53,6 +53,7 @@ require.config({
     'keycode-helpers': '../../js/helpers/keycode',
     'view-helpers': '../../js/helpers/view',
     '2d-draw': '../../js/draw/2d-draw',
+    '2d-gpudraw': '../../js/draw/2d-gpudraw',
     'colors-draw': '../../js/draw/colors',
     '2d-intersections-draw': '../../js/draw/2d-intersections',
     '2d-legend-draw': '../../js/draw/2d-legend',
@@ -61,6 +62,7 @@ require.config({
     navbar: '../../js/core/navbar/navbar',
     clusters: '../../js/core/clusters/clusters',
     jobs: '../../js/modules/jobs/jobs',
+    gpus: '../../js/modules/gpus/gpus',
     racks: '../../js/modules/racks/racks',
     'jobs-map': '../../js/modules/jobs-map/jobs-map',
     partitions: '../../js/modules/partitions/partitions',
@@ -123,6 +125,7 @@ require([
   'login',
   'navbar',
   'clusters',
+  'gpus',
   'jobs',
   'racks',
   'jobs-map',
@@ -133,7 +136,7 @@ require([
   'gantt',
   'topology',
   'ajax-utils'
-], function($, Page, config, token, user, Login, Navbar, Clusters, Jobs, Racks, JobsMap, QOS, Partitions, Reservations, D3View, Gantt, Topology, ajaxUtils) {
+], function($, Page, config, token, user, Login, Navbar, Clusters, GPUs, Jobs, Racks, JobsMap, QOS, Partitions, Reservations, D3View, Gantt, Topology, ajaxUtils) {
   var clusters = null,
     page = new Page(),
     navbar = null;
@@ -204,6 +207,8 @@ require([
     case 'login':
       page = new Login(config);
       break;
+    case 'gpus':
+      page = new GPUs(config)
     case 'jobs':
       if (options.filter) {
         page = new Jobs(config, options.filter);
