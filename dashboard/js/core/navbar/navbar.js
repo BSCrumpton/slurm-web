@@ -36,6 +36,7 @@ define([
       name: '3D View',
       condition: !Boolean(document.documentMode)
     },
+    { id: 'gpus', name: 'GPUs' },
     { id: 'partitions', name: 'Partitions' },
     { id: 'qos', name: 'QOS' },
     { id: 'reservations', name: 'Reservations' },
