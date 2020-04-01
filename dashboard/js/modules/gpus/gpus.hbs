@@ -1,0 +1,12 @@
+<div id="jobsmap">
+  <h1 class="page-header">
+    Jobs Map
+  </h1>
+  <canvas id="cv_rackmap_legend" class="canvas-legend" width="{{config.LEGEND.WIDTH}}" height="{{config.LEGEND.HEIGHT}}"/>
+  {{#each racks}}
+    <div class="canvas-container">
+      <div class="canvas-tooltip"></div>
+      <canvas id="cv_rackmap_{{@key}}" width="{{../config.CANVASWIDTH}}" height="{{../config.CANVASHEIGHT}}" />
+    </div>
+  {{/each}}
+</div>
