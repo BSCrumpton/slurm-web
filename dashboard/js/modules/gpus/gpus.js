@@ -155,6 +155,14 @@ define([
         if (err) {
           return;
         }
+        for (node in result.nodes){
+          if(result.nodes[node].gres[0]!=null){
+            result.nodes[node].cpus=result.nodes[node].gres[0].split(":")[1]
+          }
+          else{
+            result.nodes[node].cpus=0
+          }
+        }
 
         self.slurmNodes = result.nodes;
         allocatedCPUs = jobs.buildAllocatedCPUs(result.jobs);

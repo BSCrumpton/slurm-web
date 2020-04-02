@@ -232,7 +232,7 @@ define([
         core = {},
         coreId = 0,
         coresDrawn = 0,
-        coresNumber = slurmNode && slurmNode.cpus || 0,
+        coresNumber = parseInt(slurmNode && slurmNode.cpus || 0),
         coresTableInfos = factorDraw.bestFactor(node.innerWidth, node.innerHeight, coresNumber),
         coresColumns = coresTableInfos[1],
         coresRows = coresTableInfos[0];
@@ -242,7 +242,7 @@ define([
       core.size = Math.min(core.height, core.width);
 
       for (job in allocatedCPUs) {
-        coresJobNumber = allocatedCPUs[job];
+        coresJobNumber = parseInt(allocatedCPUs[job]);
         core.color = pickJobColor(parseInt(job, 10));
 
         for (; coreId < coresDrawn + coresJobNumber; coreId++) {
