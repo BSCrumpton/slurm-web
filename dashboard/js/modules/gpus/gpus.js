@@ -30,8 +30,7 @@ define([
   '2d-draw',
   '2d-legend-draw',
   'jobs-utils',
-  'jobs-map'
-], function($, async, Handlebars, template, modalCoreTemplate, modalNodeTemplate, tokenUtils, ajaxUtils, D2Draw, d2LegendDraw, jobs,D2Map) {
+], function($, async, Handlebars, template, modalCoreTemplate, modalNodeTemplate, tokenUtils, ajaxUtils, D2Draw, d2LegendDraw, jobs) {
   var draw = new D2Draw();
 
   template = Handlebars.compile(template);
@@ -43,7 +42,68 @@ define([
     this.interval = null;
     this.config = draw.getConfig();
     this.scrollTop = 0;
-    var jobMap = new D2Map(config)
+
+    function closeModalCore(e) {
+      e.stopPropagation();
+
+      $('#modal-core').remove();
+    }
+
+    function closeModalNode(e) {
+      e.stopPropagation();
+
+      $('#modal-node').remove();
+    }
+
+    function toggleModalCore(jobId) {
+
+      $.ajax(config.cluster.api.url + config.cluster.api.path + '/job/' + jobId, ajaxUtils.getAjaxOptions(config.cluster))
+        .success(function(job) {
+          var context = {
+            jobId: jobId,
+            job: job
+          };
+
+          $('body').append(modalCoreTemplate(context));
+          $('#modal-core').on('hidden.bs.modal', closeModalCore);
+          $('#modal-core').modal('show');
+        });
+    }
+
+    function toggleModalNode(nodeId) {
+
+      $.ajax(config.cluster.api.url + config.cluster.api.path + '/jobs-by-node/' + nodeId, ajaxUtils.getAjaxOptions(config.cluster))
+        .success(function(jobs) {
+          var context;
+
+          // expand the first job's informations
+          if (Object.keys(jobs).length) {
+            jobs[Object.keys(jobs)[0]].expanded = 'in';
+          }
+
+          context = {
+            count: Object.keys(jobs).length,
+            nodeId: nodeId,
+            jobs: jobs
+          };
+
+          $('body').append(modalNodeTemplate(context));
+          $('#modal-node').on('hidden.bs.modal', closeModalNode);
+          $('#modal-node').modal('show');
+        });
+    }
+
+    $(document).on('modal-core', function(e, options) {
+      e.stopPropagation();
+
+      toggleModalCore(options.jobId);
+    });
+
+    $(document).on('modal-node', function(e, options) {
+      e.stopPropagation();
+
+      toggleModalNode(options.nodeId);
+    });
 
     this.saveUI = function () {
       self.scrollTop = $(window).scrollTop();
