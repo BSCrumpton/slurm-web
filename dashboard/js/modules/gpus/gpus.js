@@ -31,7 +31,7 @@ define([
   '2d-legend-draw',
   'jobs-utils',
   'jobs-map'
-], function($, async, Handlebars, template, modalCoreTemplate, modalNodeTemplate, tokenUtils, ajaxUtils, D2Draw, d2LegendDraw, jobs,jobMap) {
+], function($, async, Handlebars, template, modalCoreTemplate, modalNodeTemplate, tokenUtils, ajaxUtils, D2Draw, d2LegendDraw, jobs,D2Map) {
   var draw = new D2Draw();
 
   template = Handlebars.compile(template);
@@ -43,19 +43,7 @@ define([
     this.interval = null;
     this.config = draw.getConfig();
     this.scrollTop = 0;
-
-
-    $(document).on('modal-core', function(e, options) {
-      e.stopPropagation();
-
-      jobMap.toggleModalCore(options.jobId);
-    });
-
-    $(document).on('modal-node', function(e, options) {
-      e.stopPropagation();
-
-      jobMap.toggleModalNode(options.nodeId);
-    });
+    var jobMap = new D2Map(config)
 
     this.saveUI = function () {
       self.scrollTop = $(window).scrollTop();
@@ -110,6 +98,7 @@ define([
 
         self.slurmNodes = result.nodes;
         allocatedCPUs = jobs.buildAllocatedCPUs(result.jobs);
+        allocatedCPUs = jobs.buildAllocatedGPUs(result.jobs);
 
         racks = result.racks.racks;
         if (racks instanceof Array) {
