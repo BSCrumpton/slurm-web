@@ -53,7 +53,6 @@ require.config({
     'keycode-helpers': '../../js/helpers/keycode',
     'view-helpers': '../../js/helpers/view',
     '2d-draw': '../../js/draw/2d-draw',
-    '2d-gpudraw': '../../js/draw/2d-gpudraw',
     'colors-draw': '../../js/draw/colors',
     '2d-intersections-draw': '../../js/draw/2d-intersections',
     '2d-legend-draw': '../../js/draw/2d-legend',
