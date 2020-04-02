@@ -209,6 +209,7 @@ require([
       break;
     case 'gpus':
       page = new GPUs(config)
+      break;
     case 'jobs':
       if (options.filter) {
         page = new Jobs(config, options.filter);
