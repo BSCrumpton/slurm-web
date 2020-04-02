@@ -27,7 +27,7 @@ define([
   'text!../../js/modules/jobs-map/modal-node.hbs',
   'token-utils',
   'ajax-utils',
-  '2d-gpudraw',
+  '2d-draw',
   '2d-legend-draw',
   'jobs-utils',
   'jobs-map'
