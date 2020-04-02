@@ -244,6 +244,8 @@ define([
       $('#jobsmap').remove();
       $(document).off('modal-core');
       $(document).off('modal-node');
+      $(document).off('canvas-mousemove');
+      $(document).off('canvas-click');
       $('canvas[id^="cv_rackmap_"]').off('click');
       $('canvas[id^="cv_rackmap_"]').off('mousemove');
     };
