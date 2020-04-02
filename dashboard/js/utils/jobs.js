@@ -44,7 +44,7 @@ define([
       }
 
       return allocatedCPUs;
-    }
+    },
     buildAllocatedGPUs : function(jobs) {
       var allocatedGPUs = {},
         nodesGPUs = null,
@@ -54,10 +54,10 @@ define([
       for (job in jobs) {
         if (jobs.hasOwnProperty(job) && jobs[job].job_state === 'RUNNING' && jobs[job].tres_per_node != null) {
           for (node in jobs[job].nodeset){
-            if (!allocatedGPUs.hasOwnProperty(node)) {
-              allocatedGPUs[node] = {};
+            if (!allocatedGPUs.hasOwnProperty(nodeset[node])) {
+              allocatedGPUs[nodeset[node])] = {};
             }
-            allocatedGPUs[node][job]=jobs[job].tres_per_node.split(":")[1]
+            allocatedGPUs[nodeset[node])][job]=jobs[job].tres_per_node.split(":")[1]
           }
         }
       }
