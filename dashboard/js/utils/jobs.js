@@ -61,6 +61,14 @@ define([
             allocatedGPUs[jobs[job].nodeset[node]][job]=jobs[job].tres_per_node.split(":")[1]
           }
         }
+        if (jobs.hasOwnProperty(job) && jobs[job].job_state === 'RUNNING' && jobs[job].tres_per_job != null) {
+          for (node in jobs[job].nodeset){
+            if (!allocatedGPUs.hasOwnProperty(jobs[job].nodeset[node])) {
+              allocatedGPUs[jobs[job].nodeset[node]] = {};
+            }
+            allocatedGPUs[jobs[job].nodeset[node]][job]=jobs[job].tres_per_job.split(":")[1]
+          }
+        }
       }
 
       return allocatedGPUs;
