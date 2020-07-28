@@ -43,6 +43,23 @@ define([
   template = Handlebars.compile(template);
   modalTemplate = Handlebars.compile(modalTemplate);
   tableJobsTemplate = Handlebars.compile(tableJobsTemplate);
+  Handlebars.registerHelper("resources", function(job) {
+    if(!job.tres_alloc_str){
+      return ""
+    }
+    var resourceString = job.tres_alloc_str;
+    resourceString=resourceString.substring(0,resourceString.indexOf(",billing"));
+    var gpuString = "0";
+    if(job.tres_per_job){
+      gpuString=job.tres_per_job.split(":")[1];
+    }
+    if(job.tres_per_node){
+      gpuString=job.tres_per_node.split(":")[1];
+    }
+    resourceString=resourceString+",gpus:"+gpuString;
+    
+    return resourceString
+  });
 
   return function(config, filter) {
     var self = this;

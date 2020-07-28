@@ -40,14 +40,14 @@ define([
    return job.tres_alloc_str.split(",")[1].split("=")[1];
   });
   Handlebars.registerHelper("gpus", function(job) {
-    var gpuString = "0"
+    var gpuString = "0";
     if(job.tres_per_job){
-      gpuString=job.tres_per_job.split(":")[1]
+      gpuString=job.tres_per_job.split(":")[1];
     }
     if(job.tres_per_node){
-      gpuString=job.tres_per_node.split(":")[1]
+      gpuString=job.tres_per_node.split(":")[1];
     }
-    return gpuString
+    return gpuString;
   });
 
   return function(config) {
