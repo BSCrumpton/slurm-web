@@ -59,9 +59,18 @@ define([
 
       $.ajax(config.cluster.api.url + config.cluster.api.path + '/job/' + jobId, ajaxUtils.getAjaxOptions(config.cluster))
         .success(function(job) {
+          var gpuString = "0"
+            if(job.tres_per_job){
+              gpuString=job.tres_per_job.split(":")[1]
+            }
+            if(job.tres_per_node){
+              gpuString=job.tres_per_node.split(":")[1]
+            }
           var context = {
             jobId: jobId,
-            job: job
+            job: job,
+            memory: job.tres_alloc_str.split(",")[1].split("=")[1],
+            gpus: gpuString
           };
 
           $('body').append(modalCoreTemplate(context));
