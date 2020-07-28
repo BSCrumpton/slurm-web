@@ -59,18 +59,9 @@ define([
 
       $.ajax(config.cluster.api.url + config.cluster.api.path + '/job/' + jobId, ajaxUtils.getAjaxOptions(config.cluster))
         .success(function(job) {
-          var gpuString = "0"
-            if(job.tres_per_job){
-              gpuString=job.tres_per_job.split(":")[1]
-            }
-            if(job.tres_per_node){
-              gpuString=job.tres_per_node.split(":")[1]
-            }
           var context = {
             jobId: jobId,
-            job: job,
-            memory: job.tres_alloc_str.split(",")[1].split("=")[1],
-            gpus: gpuString
+            job: job
           };
 
           $('body').append(modalCoreTemplate(context));
@@ -89,11 +80,19 @@ define([
           if (Object.keys(jobs).length) {
             jobs[Object.keys(jobs)[0]].expanded = 'in';
           }
+          // If you don't want to restrict the jobs by GPU only, remove the next block and change line 95 back
+          var gpuJobs={};
+          for (var key in jobs){
+            if(jobs[key].tres_per_job || jobs[key].tres_per_node){
+              gpuJobs[key]=jobs[key]
+            }
+          }
+
 
           context = {
             count: Object.keys(jobs).length,
             nodeId: nodeId,
-            jobs: jobs
+            jobs: gpuJobs
           };
 
           $('body').append(modalNodeTemplate(context));

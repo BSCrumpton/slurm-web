@@ -36,6 +36,19 @@ define([
   template = Handlebars.compile(template);
   modalCoreTemplate = Handlebars.compile(modalCoreTemplate);
   modalNodeTemplate = Handlebars.compile(modalNodeTemplate);
+  Handlebars.registerHelper("memory", function(job) {
+   return job.tres_alloc_str.split(",")[1].split("=")[1];
+  });
+  Handlebars.registerHelper("gpus", function(job) {
+    var gpuString = "0"
+    if(job.tres_per_job){
+      gpuString=job.tres_per_job.split(":")[1]
+    }
+    if(job.tres_per_node){
+      gpuString=job.tres_per_node.split(":")[1]
+    }
+    return gpuString
+  });
 
   return function(config) {
     this.slurmNodes = null;
@@ -59,18 +72,10 @@ define([
 
       $.ajax(config.cluster.api.url + config.cluster.api.path + '/job/' + jobId, ajaxUtils.getAjaxOptions(config.cluster))
         .success(function(job) {
-          var gpuString = "0"
-            if(job.tres_per_job){
-              gpuString=job.tres_per_job.split(":")[1]
-            }
-            if(job.tres_per_node){
-              gpuString=job.tres_per_node.split(":")[1]
-            }
+          
           var context = {
             jobId: jobId,
-            job: job,
-            memory: job.tres_alloc_str.split(",")[1].split("=")[1],
-            gpus: gpuString
+            job: job
           };
 
           $('body').append(modalCoreTemplate(context));
